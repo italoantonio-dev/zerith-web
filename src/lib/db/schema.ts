@@ -155,6 +155,7 @@ export const products = pgTable("product", {
   slug: text("slug").notNull().unique(),
   description: text("description").notNull().default(""),
   href: text("href").notNull().default("/contato"),
+  imageAssetId: text("image_asset_id").references(() => assets.id),
   status: text("status", { enum: ["draft", "published"] }).notNull().default("draft"),
   createdAt: date("created_at").notNull().defaultNow(),
   updatedAt: date("updated_at").notNull().defaultNow(),
