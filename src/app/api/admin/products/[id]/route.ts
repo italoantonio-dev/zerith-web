@@ -1,0 +1,8 @@
+import { and, eq } from "drizzle-orm";
+import { getDb } from "@/lib/db";
+import { products } from "@/lib/db/schema";
+import { adminSession, apiError, readJson, requireOrigin, HttpError } from "@/lib/admin";
+export const runtime = "nodejs";
+function fields(data: Record<string, unknown>) { const name = String(data.name ?? "").trim(), slug = String(data.slug ?? "").trim().toLowerCase(), description = String(data.description ?? "").trim(); if (!name || !/^[a-z0-9-]+$/.test(slug) || !description) throw new HttpError(400, "Preencha nome, slug e descrição."); return { name, slug, description, href: String(data.href ?? "/contato"), status: data.status === "published" ? "published" as const : "draft" as const, updatedAt: new Date() }; }
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) { try { requireOrigin(request); await adminSession(request.headers); const data = fields(await readJson(request)); const { id } = await params; const result = await getDb().update(products).set(data).where(eq(products.id, id)).returning(); if (!result.length) throw new HttpError(404, "Produto não encontrado."); return Response.json(result[0]); } catch (error) { return apiError(error); } }
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) { try { requireOrigin(request); await adminSession(request.headers); const { id } = await params; const result = await getDb().delete(products).where(eq(products.id, id)).returning({ id: products.id }); if (!result.length) throw new HttpError(404, "Produto não encontrado."); return new Response(null, { status: 204 }); } catch (error) { return apiError(error); } }

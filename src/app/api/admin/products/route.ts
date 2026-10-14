@@ -1,7 +1,12 @@
 import { getDb } from "@/lib/db";
 import { products } from "@/lib/db/schema";
+import { desc } from "drizzle-orm";
 import { adminSession, apiError, readJson, requireOrigin, HttpError } from "@/lib/admin";
 export const runtime = "nodejs";
+export async function GET(request: Request) {
+  try { await adminSession(request.headers); return Response.json(await getDb().select().from(products).orderBy(desc(products.updatedAt))); }
+  catch (error) { return apiError(error); }
+}
 export async function POST(request: Request) {
   try {
     requireOrigin(request); const active = await adminSession(request.headers);
