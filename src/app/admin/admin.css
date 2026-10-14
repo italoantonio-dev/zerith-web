@@ -174,6 +174,20 @@
   border-radius: 8px;
   overflow: hidden;
 }
+.admin-products { max-width: 1120px; }
+.product-form { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; padding: 24px; margin-bottom: 24px; }
+.product-form label { display: flex; flex-direction: column; gap: 8px; color: #c0cce0; font-size: 12px; }
+.product-form label:nth-child(3) { grid-column: 1 / -1; }
+.product-form textarea { min-height: 110px; resize: vertical; }
+.product-form > div { display: flex; align-items: center; gap: 12px; grid-column: 1 / -1; }
+.product-form [role="status"] { grid-column: 1 / -1; margin: 0; }
+.admin-products > .admin-panel:last-child { padding: 0; }
+.admin-products .admin-recent-post { border-bottom: 1px solid var(--line); }
+.admin-products .admin-recent-post:last-child { border-bottom: 0; }
+.admin-products .admin-recent-post > span:last-child { display: flex; gap: 8px; }
+.admin-products .admin-recent-post button { min-height: 36px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--text); font-size: 11px; }
+.admin-products .admin-recent-post button:hover { background: var(--surface-raised); }
+@media (max-width: 700px) { .product-form { grid-template-columns: 1fr; } .product-form label:nth-child(3), .product-form > div, .product-form [role="status"] { grid-column: auto; } .admin-products .admin-recent-post { align-items: flex-start; flex-direction: column; } }
 .admin-panel h2 {
   font-size: 16px;
   letter-spacing: -0.3px;
