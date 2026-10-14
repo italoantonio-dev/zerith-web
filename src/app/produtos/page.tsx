@@ -4,8 +4,10 @@ import { PageIntro } from "@/components/page-intro";
 import { CoreArt } from "@/components/core-art";
 import { Arrow } from "@/components/icons";
 import { ContactBand } from "@/components/footer";
+import { listProducts } from "@/lib/products";
 export const metadata: Metadata = { title: "Produtos" };
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const catalog = await listProducts();
   return (
     <>
       <PageIntro
@@ -30,6 +32,7 @@ export default function ProductsPage() {
         </div>
         <CoreArt compact />
       </section>
+      {catalog.length > 0 && <section className="container product-catalog section-space" aria-labelledby="catalog-title"><div className="section-label"><span className="section-index">02 /</span><span>OUTROS PRODUTOS</span></div><h2 id="catalog-title">Soluções próprias em evolução.</h2><div className="solutions-grid">{catalog.map((product) => <Link key={product.id} href={product.href} className="solution-card"><div className="solution-card-top"><span className="status-dot" /><span>PUBLICADO</span></div><h3>{product.name}</h3><p>{product.description}</p><div className="card-bottom"><span>Conhecer produto</span><Arrow diagonal /></div></Link>)}</div></section>}
       <ContactBand />
     </>
   );

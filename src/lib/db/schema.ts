@@ -149,6 +149,16 @@ export const posts = pgTable(
   },
   (t) => [index("post_publication_idx").on(t.status, t.publishedAt)],
 );
+export const products = pgTable("product", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  slug: text("slug").notNull().unique(),
+  description: text("description").notNull().default(""),
+  href: text("href").notNull().default("/contato"),
+  status: text("status", { enum: ["draft", "published"] }).notNull().default("draft"),
+  createdAt: date("created_at").notNull().defaultNow(),
+  updatedAt: date("updated_at").notNull().defaultNow(),
+});
 export const audit = pgTable(
   "audit_event",
   {
@@ -164,3 +174,4 @@ export const audit = pgTable(
   (t) => [index("audit_date_idx").on(t.createdAt)],
 );
 export type Post = typeof posts.$inferSelect;
+export type Product = typeof products.$inferSelect;

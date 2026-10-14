@@ -27,6 +27,7 @@ export function AdminShell({
           {[
             { href: "/admin", label: "Visão geral", icon: "◈" },
             { href: "/admin/artigos", label: "Artigos", icon: "▤" },
+            { href: "/admin/produtos", label: "Produtos", icon: "◇" },
             { href: "/admin/midia", label: "Biblioteca", icon: "▧" },
             { href: "/admin/seguranca", label: "Segurança", icon: "◇" },
             { href: "/admin/atividade", label: "Atividade", icon: "↗" },
